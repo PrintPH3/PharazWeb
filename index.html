@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Full-Screen Photo</title>
+
+  <style>
+    html,body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      min-height: 100vh;
+      background: black;
+      overflow: hidden;
+    }
+    .fullscreen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+    .fullscreen img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      opacity: 0;
+      transform: scale(1.01);
+      transition: opacity 500ms ease, transform 700ms ease;
+      will-change: opacity, transform;
+    }
+    .fullscreen img.loaded {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body>
+  <div class="fullscreen">
+    <img id="bg" src="background.jpg" alt="" loading="eager" decoding="async" />
+  </div>
+
+  <script>
+    var img = document.getElementById('bg');
+    if (img.complete && img.naturalWidth !== 0) {
+      img.classList.add('loaded');
+    } else {
+      img.addEventListener('load', function () {
+        img.classList.add('loaded');
+      }, { once: true });
+    }
+  </script>
+</body>
+</html>
